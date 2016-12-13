@@ -1,0 +1,59 @@
+$lightpink: #ffe6e6;
+$darkpink: #ffb3b3;
+
+$lightblue: aliceblue;
+$darkblue: cornflowerblue;
+
+$lightgray: #D8D8D8;
+$darkteal: #00A699;
+
+$activeState: $darkteal;
+$inactiveState: $lightgray;
+
+.star-rating-wrapper {
+  // outline: 1px solid #c5c5c5;
+  width: 100%; /* 125px */
+  display: block;
+  min-height: 22px;
+  direction: rtl; /* rtl is set in order to be able to use next sibling selector (~) below */
+  text-align: left;
+  input[type=radio] {
+    display: none;
+    /* block below sets the svg stars color from perceived 'leftmost' star to the star that has been selected/checked */
+    &:checked + label ~ label svg.star, &:checked + label svg.star {
+        fill: $activeState;
+    }
+  }
+  /*
+  block below resets the base color of svg stars when hovered, which is useful especially when an input has the checked attribute.
+  Must be positioned above label selector below this
+  */
+  &:hover {
+    label:not([disabled]) svg.star {
+      fill: $inactiveState!important;
+    }
+  }
+  label {
+    width: 22px;
+    height: 23px;
+    display:inline-block;
+    padding: 4px 1px;
+    font-family:Arial;
+    font-size:16px;
+    &:not([disabled]) {
+      cursor: pointer;
+      &:hover {
+       /*  block below writes over styles for hover event on the container, only for the range of stars from perceived 'leftmost' to the hovered star */
+        & ~ label svg.star, & svg.star {
+          fill: $activeState!important;
+        }
+      }
+    }
+    /* block below is the base color for star svg */
+    svg.star {
+      fill: $inactiveState;
+    }
+  }
+
+}
+

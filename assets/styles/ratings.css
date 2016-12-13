@@ -1,0 +1,37 @@
+.star-rating-wrapper {
+  width: 100%;
+  /* 125px */
+  display: block;
+  min-height: 22px;
+  direction: rtl;
+  /* rtl is set in order to be able to use next sibling selector (~) below */
+  text-align: left;
+  /*
+  block below resets the base color of svg stars when hovered, which is useful especially when an input has the checked attribute.
+  Must be positioned above label selector below this
+  */ }
+  .star-rating-wrapper input[type=radio] {
+    display: none;
+    /* block below sets the svg stars color from perceived 'leftmost' star to the star that has been selected/checked */ }
+    .star-rating-wrapper input[type=radio]:checked + label ~ label svg.star, .star-rating-wrapper input[type=radio]:checked + label svg.star {
+      fill: #00A699; }
+  .star-rating-wrapper:hover label:not([disabled]) svg.star {
+    fill: #D8D8D8 !important; }
+  .star-rating-wrapper label {
+    width: 22px;
+    height: 23px;
+    display: inline-block;
+    padding: 4px 1px;
+    font-family: Arial;
+    font-size: 16px;
+    /* block below is the base color for star svg */ }
+    .star-rating-wrapper label:not([disabled]) {
+      cursor: pointer; }
+      .star-rating-wrapper label:not([disabled]):hover {
+        /*  block below writes over styles for hover event on the container, only for the range of stars from perceived 'leftmost' to the hovered star */ }
+        .star-rating-wrapper label:not([disabled]):hover ~ label svg.star, .star-rating-wrapper label:not([disabled]):hover svg.star {
+          fill: #00A699 !important; }
+    .star-rating-wrapper label svg.star {
+      fill: #D8D8D8; }
+
+/*# sourceMappingURL=ratings.css.map */

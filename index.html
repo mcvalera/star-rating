@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ratings Demo</title>
+  <link rel="stylesheet" type="text/css" href="/assets/styles/ratings.css">
+  <script type="text/javascript">
+    var getData = [
+      {
+        id: '100',
+        title: 'One',
+        desc: 'blah'
+        ,
+        rating: 1
+      },
+      {
+        id: '1001',
+        title: 'Two',
+        desc: 'blah'
+        ,
+        rating: 5
+      },
+      {
+        id: '1002',
+        title: 'Three',
+        desc: 'blah'
+        ,
+        rating: 3
+      }
+    ];
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+      (function initGetRatings() {
+        for (var i = 0; i < getData.length; i++) {
+          var current = getData[i];
+          var node = populateMovieTemplate(current);
+          document.getElementById('film-container').appendChild(node);
+        }
+      })();
+
+      function populateMovieTemplate(currentData) {
+        var template = document.getElementById('movie-template').innerHTML;
+        var populatedTemplate = template.replace(/{(\w+)}/g, function($0, $1) {
+          return currentData[$1];
+        });
+        var temp = document.createElement('div'); // temp div to turn populatedTemplate into html node
+        temp.innerHTML = populatedTemplate;
+        populatedTemplate = temp.querySelector('.movie-container');
+        return addStarRatingWidget(populatedTemplate, currentData);
+      }
+
+      function addStarRatingWidget(tmpl, data) {
+        var rContainer = tmpl.querySelector('.rating-container');
+        var config = {
+          container: rContainer,
+          currentRating: data.rating,
+          maxRating: 5,
+          collectionName: data['id'],
+          settable: false,
+          callbackFunction: function() {
+            alert('callback function!');
+          }
+        }
+        var ratingInstance = new Rating(config);
+        ratingInstance.init();
+        return tmpl;
+      }
+
+      /*
+        testing set multiple stars per form
+      */
+      // (function initSetRatings() {
+      //   var ratings = document.getElementsByClassName('rating-container');
+      //   for (var i = 0; i < ratings.length; i++) {
+      //     console.log(ratings[i]);
+      //     var el = ratings[i];
+      //     var name = el.getAttribute('data-rating-name');
+      //     var config = {
+      //       container: el,
+      //       maxRating: 5,
+      //       collectionName: name,
+      //       settable: true,
+      //       callbackFunction: function() {
+      //         alert('callback function!');
+      //       }
+      //     }
+      //     var r = new Rating(config);
+      //     // console.log('r', r);
+      //     r.init();
+      //   }
+      // })();
+
+    });
+
+  </script>
+</head>
+<body>
+
+  <div id="film-container"></div>
+
+  <script type="html/tmpl" id="movie-template">
+    <div class="movie-container">
+      <h2 class="mv-title">{title}</h2>
+      <p class="mv-desc">{desc}</p>
+      <div class="rating-container"></div>
+    </div>
+  </script>
+
+  <form>
+    <div class="rating-container" data-rating-name="test1"></div>
+    <div class="rating-container" data-rating-name="test2"></div>
+    <div class="rating-container" data-rating-name="test3"></div>
+    <div class="rating-container" data-rating-name="test4"></div>
+    <input type="submit">
+  </form>
+
+  <script type="text/javascript" src="/assets/js/ratings.js"></script>
+</body>
+</html>
+
